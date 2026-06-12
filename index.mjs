@@ -1,5 +1,12 @@
 export function rollingMean(samples, n) {
-  return undefined;
+  const means = [];
+  let sum = 0;
+  for (let i = 0; i < samples.length; i++) {
+    sum += samples[i].v;
+    if (i >= n) sum -= samples[i - n].v;
+    means.push(sum / Math.min(i + 1, n));
+  }
+  return means;
 }
 
 export function drift(samples, n, tolerance) {
