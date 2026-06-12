@@ -10,7 +10,15 @@ export function rollingMean(samples, n) {
 }
 
 export function drift(samples, n, tolerance) {
-  return undefined;
+  const drifted = [];
+  for (let i = 1; i < samples.length; i++) {
+    const start = Math.max(0, i - n);
+    let sum = 0;
+    for (let j = start; j < i; j++) sum += samples[j].v;
+    const baseline = sum / (i - start);
+    if (Math.abs(samples[i].v - baseline) > tolerance) drifted.push(samples[i]);
+  }
+  return drifted;
 }
 
 export function span(samples) {
